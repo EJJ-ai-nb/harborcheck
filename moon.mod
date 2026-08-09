@@ -9,18 +9,18 @@
 //   "moonbitlang/x@0.4.6",
 // }
 
-name = "moonbit-community/harborcheck"
+name = "WVYT-ai-nb/harborcheck"
 
 version = "0.1.0"
 
-readme = "README.mbt.md"
+readme = "README.md"
 
-repository = ""
+repository = "https://github.com/WVYT-ai-nb/harborcheck.git"
 
-license = "Apache-2.0"
+license = "MIT"
 
-keywords = []
+keywords = ["audit", "ci", "mooncakes", "readme", "release"]
 
 preferred_target = "wasm"
 
-description = ""
+description = "MoonBit-native release readiness auditor for Mooncakes packages"
