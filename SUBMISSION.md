@@ -32,4 +32,4 @@ HarborCheck 面向 MoonBit 包作者，将 README、CI、测试、示例、许�
 
 ## 原创或参考说明
 
-本项目为原创 MoonBit 实现，不移植第三方源码，不包含来源不明素材或私有代码。项目使用 MIT License，运行时仅依赖 MoonBit 标准核心库。
+本项目为原创 MoonBit 实现，不移植第三方源码，不包含来源不明素材或私有代码。已通过 Mooncakes 模块列表和关键词调研确认无同名包；相近的 release、doctor、audit 类包更偏自动发布、模块检查或其他领域审计，HarborCheck 的差异点是面向验收材料的纯 MoonBit 快照审计和修复清单。项目使用 MIT License，运行时仅依赖 MoonBit 标准核心库。

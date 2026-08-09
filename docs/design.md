@@ -19,3 +19,7 @@ The boundary is `ProjectSnapshot`. External adapters are responsible for collect
 ## Why not a generic parser
 
 The project does not try to be a TOML, YAML or Markdown parser. Those are broad formats. HarborCheck focuses on the subset needed for MoonBit package review, which keeps the code small enough to maintain and strict enough for repeatable validation.
+
+## Differentiation
+
+Existing release-oriented packages may automate versioning, publishing or repository inspection. HarborCheck keeps a narrower pure-library boundary: it audits a provided review snapshot and returns deterministic findings, score, Markdown/JSON reports and repair steps. That makes it easy to embed in other tools without taking over file-system access, network access or package publishing.

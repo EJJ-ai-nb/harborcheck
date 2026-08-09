@@ -113,3 +113,14 @@ moon publish
 https://mooncakes.io/docs/WVYT-ai-nb/harborcheck
 https://mooncakes.io/api/v0/manifest/WVYT-ai-nb/harborcheck
 ```
+
+## 维护资料
+
+- `CHANGELOG.md`：版本发布记录；
+- `SUBMISSION.md`：项目申报书；
+- `docs/API.md`：API 说明；
+- `docs/design.md`：设计说明；
+- `docs/research.md`：选题调研与差异化；
+- `docs/issues.md`：Issue 记录；
+- `docs/test-record.md`：测试记录；
+- `docs/release-checklist.md`：发布检查清单。

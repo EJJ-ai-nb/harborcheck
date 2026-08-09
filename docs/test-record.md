@@ -19,6 +19,6 @@ moon run cmd/main
 
 Result:
 
-- `moon test`: 14 tests passed, 0 failed.
+- `moon test`: 16 tests passed, 0 failed.
 - `examples/basic`: printed a Markdown audit report.
 - `cmd/main`: printed `HarborCheck ready 100/100`.
