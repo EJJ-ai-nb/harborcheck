@@ -1,0 +1,5 @@
+// import {
+//   "moonbit-community/harborcheck" @lib,
+// }
+
+pkgtype(kind: "executable")
