@@ -23,6 +23,12 @@ pub fn release_checklist(snapshot : ProjectSnapshot) -> String {
 }
 
 ///|
+/// Return the built-in rule catalog in Markdown form.
+pub fn rules_markdown() -> String {
+  rule_catalog_markdown()
+}
+
+///|
 /// Return a runnable fixture that demonstrates a release-ready MoonBit package.
 pub fn example_snapshot() -> ProjectSnapshot {
   harborcheck_example_snapshot()

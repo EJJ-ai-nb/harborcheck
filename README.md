@@ -58,6 +58,8 @@ moon publish --dry-run
 
 - `ProjectSnapshot(...)`：描述一个项目的审计输入，包含 `moon.mod`、README、CI、测试、示例、许可证和发布状态等字段；
 - `parse_manifest(text)`：从 `moon.mod` 文本中提取包名、版本、README、仓库、许可证和描述；
+- `snapshot_from_bundle(text)`：解析 `--- file: path` 分隔的仓库快照文本；
+- `rule_catalog()` / `rules_markdown()`：查看内置规则目录；
 - `audit(snapshot)`：运行所有内置规则，生成 `AuditReport`；
 - `audit_markdown(snapshot)` / `AuditReport::to_markdown()`：导出 Markdown 审计报告；
 - `audit_json(snapshot)` / `AuditReport::to_json()`：导出 JSON 摘要，便于 CI 或页面集成；

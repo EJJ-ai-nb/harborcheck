@@ -135,3 +135,69 @@ test "repair checklist lists blocking actions for broken snapshot" {
   assert_true(report.repair_steps().length() >= 8)
   assert_true(@harborcheck.release_checklist(snapshot).contains("[blocking]"))
 }
+
+///|
+test "rule catalog exposes every audit rule" {
+  @test.assert_eq(@harborcheck.catalog_size(), 34)
+  let readme_rules = @harborcheck.rules_for_kind(@harborcheck.Readme)
+  assert_true(readme_rules.length() >= 8)
+  debug_inspect(
+    @harborcheck.find_rule("ci.test").map(rule => rule.title),
+    content="Some(\"Runs moon test\")",
+  )
+  assert_true(@harborcheck.rules_markdown().contains("moon.mod.name"))
+}
+
+///|
+test "snapshot bundle parser builds an auditable snapshot" {
+  let bundle =
+    #|--- file: moon.mod
+    #|name = "WVYT-ai-nb/harborcheck"
+    #|version = "0.1.0"
+    #|readme = "README.md"
+    #|repository = "https://github.com/WVYT-ai-nb/harborcheck.git"
+    #|license = "MIT"
+    #|description = "MoonBit-native release readiness auditor for Mooncakes packages"
+    #|--- file: README.md
+    #|# HarborCheck
+    #|解决 MoonBit package release review problem.
+    #|安装 moon add WVYT-ai-nb/harborcheck.
+    #|使用 moon run examples/basic.
+    #|API audit.
+    #|支持范围 package audit.
+    #|暂不支持 publishing.
+    #|moon check
+    #|moon build
+    #|moon test
+    #|MIT License third-party none.
+    #|--- file: .github/workflows/ci.yml
+    #|curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+    #|moon check
+    #|moon build
+    #|moon test
+    #|moon run examples/basic
+    #|--- file: LICENSE
+    #|MIT License
+    #|--- file: harborcheck_test.mbt
+    #|valid invalid boundary markdown json
+    #|--- file: examples/basic/main.mbt
+    #|fn main { println("ok") }
+    #|--- file: CHANGELOG.md
+    #|0.1.0
+    #|--- file: docs/design.md
+    #|Design boundary.
+    #|--- file: docs/issues.md
+    #|Issue record.
+    #|
+  let snapshot = @harborcheck.snapshot_from_bundle(
+    bundle,
+    project_name="HarborCheck",
+    commit_count=6,
+    repository_public=true,
+    mooncakes_published=true,
+  )
+  let report = @harborcheck.audit(snapshot)
+  @test.assert_eq(report.verdict, "ready")
+  @test.assert_eq(report.metrics.example_count, 1)
+  assert_true(report.metrics.command_count >= 4)
+}

@@ -15,6 +15,8 @@ Important fields:
 ## Main Functions
 
 - `parse_manifest(text)` extracts the Mooncakes identity and package metadata.
+- `snapshot_from_bundle(text)` parses a simple `--- file: path` bundle format into a `ProjectSnapshot`.
+- `rule_catalog()` returns the built-in rule metadata.
 - `audit(snapshot)` returns an `AuditReport`.
 - `audit_markdown(snapshot)` returns a Markdown report.
 - `audit_json(snapshot)` returns a compact JSON summary.

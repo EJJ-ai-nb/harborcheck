@@ -58,3 +58,28 @@ test "verdict requires no failures for ready" {
   @test.assert_eq(verdict_for(82, 1), "almost-ready")
   @test.assert_eq(verdict_for(82, 3), "needs-work")
 }
+
+///|
+test "bundle parser preserves file content boundaries" {
+  let files = parse_snapshot_bundle(
+    (
+      #|--- file: a.txt
+      #|alpha
+      #|--- file: nested/b.txt
+      #|beta
+      #|
+    ),
+  )
+  @test.assert_eq(files.length(), 2)
+  @test.assert_eq(files[0].path, "a.txt")
+  assert_true(files[0].content.contains("alpha"))
+  @test.assert_eq(files[1].path, "nested/b.txt")
+  assert_true(files[1].content.contains("beta"))
+}
+
+///|
+test "path normalization is case and slash tolerant" {
+  @test.assert_eq(same_path("README.md", "readme.md"), true)
+  @test.assert_eq(same_path("docs\\design.md", "docs/design.md"), true)
+  @test.assert_eq(same_path("docs/issues.md", "docs/design.md"), false)
+}
