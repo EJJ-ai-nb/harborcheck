@@ -6,5 +6,6 @@
 - Added `moon.mod` metadata extraction and validation.
 - Added README, CI, test, example, Git trace, Mooncakes and license audit rules.
 - Added Markdown and JSON report exporters.
+- Added actionable repair steps and release checklist export.
 - Added runnable `examples/basic` and `cmd/main` smoke entry.
 - Added blackbox and whitebox tests for valid, invalid, boundary and export paths.

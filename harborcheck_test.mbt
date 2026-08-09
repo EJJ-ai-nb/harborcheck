@@ -107,3 +107,28 @@ test "top level helpers delegate to audit report exporters" {
   assert_true(@harborcheck.audit_markdown(snapshot).contains("HarborCheck Audit"))
   assert_true(@harborcheck.audit_json(snapshot).contains("\"project\":\"HarborCheck\""))
 }
+
+///|
+test "repair checklist is empty for ready snapshot" {
+  let report = @harborcheck.audit(@harborcheck.example_snapshot())
+  @test.assert_eq(report.has_blockers(), false)
+  @test.assert_eq(report.repair_steps().length(), 0)
+  assert_true(report.to_release_checklist().contains("All checks pass"))
+}
+
+///|
+test "repair checklist lists blocking actions for broken snapshot" {
+  let snapshot = @harborcheck.ProjectSnapshot(
+    name="BrokenPackage",
+    moon_mod="",
+    readme="",
+    ci_workflow="",
+    license_text="",
+    repository_public=false,
+    mooncakes_published=false,
+  )
+  let report = @harborcheck.audit(snapshot)
+  @test.assert_eq(report.has_blockers(), true)
+  assert_true(report.repair_steps().length() >= 8)
+  assert_true(@harborcheck.release_checklist(snapshot).contains("[blocking]"))
+}

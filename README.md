@@ -61,6 +61,7 @@ moon publish --dry-run
 - `audit(snapshot)`：运行所有内置规则，生成 `AuditReport`；
 - `audit_markdown(snapshot)` / `AuditReport::to_markdown()`：导出 Markdown 审计报告；
 - `audit_json(snapshot)` / `AuditReport::to_json()`：导出 JSON 摘要，便于 CI 或页面集成；
+- `release_checklist(snapshot)` / `AuditReport::to_release_checklist()`：导出阻塞项和修复步骤；
 - `example_snapshot()`：提供可运行、可测试的完整示例输入。
 
 ## 支持范围

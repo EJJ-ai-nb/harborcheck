@@ -18,8 +18,11 @@ Important fields:
 - `audit(snapshot)` returns an `AuditReport`.
 - `audit_markdown(snapshot)` returns a Markdown report.
 - `audit_json(snapshot)` returns a compact JSON summary.
+- `release_checklist(snapshot)` returns actionable remediation steps.
 - `example_snapshot()` returns a complete fixture for demos and smoke tests.
 
 ## Report Semantics
 
 `AuditReport.score` starts at 100 and subtracts rule penalties. `ready` requires zero failed checks and a score of at least 90. `almost-ready` allows at most two failures and a score of at least 75. Everything else is `needs-work`.
+
+`AuditReport::repair_steps()` filters the report to non-passing findings and marks failed checks as blocking. `AuditReport::to_release_checklist()` renders those steps as Markdown for maintainers.

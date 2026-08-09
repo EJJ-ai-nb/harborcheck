@@ -17,6 +17,12 @@ pub fn audit_json(snapshot : ProjectSnapshot) -> String {
 }
 
 ///|
+/// Build an actionable checklist from the audit result.
+pub fn release_checklist(snapshot : ProjectSnapshot) -> String {
+  audit(snapshot).to_release_checklist()
+}
+
+///|
 /// Return a runnable fixture that demonstrates a release-ready MoonBit package.
 pub fn example_snapshot() -> ProjectSnapshot {
   harborcheck_example_snapshot()
