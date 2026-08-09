@@ -1,5 +1,5 @@
 import {
-  "WVYT-ai-nb/harborcheck" @harborcheck,
+  "WVYT-ai-nb/harborcheck",
 }
 
 pkgtype(kind: "executable")

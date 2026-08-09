@@ -147,16 +147,7 @@ fn pass(
   title : String,
   evidence : String,
 ) -> Finding {
-  finding(
-    id,
-    kind,
-    Pass,
-    title,
-    "Requirement satisfied.",
-    "",
-    evidence,
-    0,
-  )
+  finding(id, kind, Pass, title, "Requirement satisfied.", "", evidence, 0)
 }
 
 ///|

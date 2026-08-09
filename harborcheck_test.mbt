@@ -64,7 +64,7 @@ test "partial snapshot is almost ready but not publishable" {
 
 ///|
 test "manifest parser exposes Mooncakes identity" {
-  let manifest_text = (
+  let manifest_text =
     #|name = "WVYT-ai-nb/harborcheck"
     #|version = "0.1.0"
     #|readme = "README.md"
@@ -72,7 +72,6 @@ test "manifest parser exposes Mooncakes identity" {
     #|license = "MIT"
     #|description = "MoonBit-native release readiness auditor"
     #|
-  )
   let manifest = @harborcheck.parse_manifest(manifest_text)
   @test.assert_eq(manifest.owner, "WVYT-ai-nb")
   @test.assert_eq(manifest.package_name, "harborcheck")
@@ -104,8 +103,12 @@ test "json export is compact and machine readable" {
 ///|
 test "top level helpers delegate to audit report exporters" {
   let snapshot = @harborcheck.example_snapshot()
-  assert_true(@harborcheck.audit_markdown(snapshot).contains("HarborCheck Audit"))
-  assert_true(@harborcheck.audit_json(snapshot).contains("\"project\":\"HarborCheck\""))
+  assert_true(
+    @harborcheck.audit_markdown(snapshot).contains("HarborCheck Audit"),
+  )
+  assert_true(
+    @harborcheck.audit_json(snapshot).contains("\"project\":\"HarborCheck\""),
+  )
 }
 
 ///|

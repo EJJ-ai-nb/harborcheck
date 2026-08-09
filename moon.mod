@@ -19,7 +19,7 @@ repository = "https://github.com/WVYT-ai-nb/harborcheck.git"
 
 license = "MIT"
 
-keywords = ["audit", "ci", "mooncakes", "readme", "release"]
+keywords = [ "audit", "ci", "mooncakes", "readme", "release" ]
 
 preferred_target = "wasm"
 

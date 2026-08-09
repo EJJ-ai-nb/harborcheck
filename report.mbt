@@ -30,15 +30,27 @@ pub fn AuditReport::to_markdown(self : AuditReport) -> String {
   out.write_string("- Project: " + self.project_name + "\n")
   out.write_string("- Package: " + self.package_name + "\n")
   out.write_string("- Repository: " + self.repository + "\n")
-  out.write_string("- Score: " + self.score.to_string() + "/" + self.max_score.to_string() + "\n")
+  out.write_string(
+    "- Score: " +
+    self.score.to_string() +
+    "/" +
+    self.max_score.to_string() +
+    "\n",
+  )
   out.write_string("- Verdict: " + self.verdict + "\n\n")
   out.write_string("## Metrics\n\n")
   out.write_string("- Pass: " + self.metrics.pass_count.to_string() + "\n")
   out.write_string("- Warn: " + self.metrics.warn_count.to_string() + "\n")
   out.write_string("- Fail: " + self.metrics.fail_count.to_string() + "\n")
-  out.write_string("- Commands: " + self.metrics.command_count.to_string() + "\n")
-  out.write_string("- Tests: " + self.metrics.test_fixture_count.to_string() + "\n")
-  out.write_string("- Examples: " + self.metrics.example_count.to_string() + "\n\n")
+  out.write_string(
+    "- Commands: " + self.metrics.command_count.to_string() + "\n",
+  )
+  out.write_string(
+    "- Tests: " + self.metrics.test_fixture_count.to_string() + "\n",
+  )
+  out.write_string(
+    "- Examples: " + self.metrics.example_count.to_string() + "\n\n",
+  )
   out.write_string("## Findings\n\n")
   for finding in self.findings {
     out.write_string("- [" + severity_text(finding.severity) + "] ")
@@ -69,8 +81,12 @@ pub fn AuditReport::to_json(self : AuditReport) -> String {
   out.write_string("\"pass\":" + self.metrics.pass_count.to_string() + ",")
   out.write_string("\"warn\":" + self.metrics.warn_count.to_string() + ",")
   out.write_string("\"fail\":" + self.metrics.fail_count.to_string() + ",")
-  out.write_string("\"commands\":" + self.metrics.command_count.to_string() + ",")
-  out.write_string("\"tests\":" + self.metrics.test_fixture_count.to_string() + ",")
+  out.write_string(
+    "\"commands\":" + self.metrics.command_count.to_string() + ",",
+  )
+  out.write_string(
+    "\"tests\":" + self.metrics.test_fixture_count.to_string() + ",",
+  )
   out.write_string("\"examples\":" + self.metrics.example_count.to_string())
   out.write_string("},")
   out.write_string("\"findings\":[")
@@ -82,7 +98,9 @@ pub fn AuditReport::to_json(self : AuditReport) -> String {
     out.write_string("{")
     out.write_string("\"id\":\"" + json_escape(finding.id) + "\",")
     out.write_string("\"kind\":\"" + kind_text(finding.kind) + "\",")
-    out.write_string("\"severity\":\"" + severity_text(finding.severity) + "\",")
+    out.write_string(
+      "\"severity\":\"" + severity_text(finding.severity) + "\",",
+    )
     out.write_string("\"title\":\"" + json_escape(finding.title) + "\",")
     out.write_string("\"detail\":\"" + json_escape(finding.detail) + "\",")
     out.write_string("\"repair\":\"" + json_escape(finding.repair) + "\",")

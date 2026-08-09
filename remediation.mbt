@@ -35,12 +35,22 @@ pub fn AuditReport::repair_steps(self : AuditReport) -> Array[RepairStep] {
 pub fn AuditReport::to_release_checklist(self : AuditReport) -> String {
   let out = StringBuilder()
   out.write_string("# Release Checklist\n\n")
-  out.write_string("- Score: " + self.score.to_string() + "/" + self.max_score.to_string() + "\n")
+  out.write_string(
+    "- Score: " +
+    self.score.to_string() +
+    "/" +
+    self.max_score.to_string() +
+    "\n",
+  )
   out.write_string("- Verdict: " + self.verdict + "\n")
-  out.write_string("- Blocking findings: " + self.metrics.fail_count.to_string() + "\n\n")
+  out.write_string(
+    "- Blocking findings: " + self.metrics.fail_count.to_string() + "\n\n",
+  )
   let steps = self.repair_steps()
   if steps.length() == 0 {
-    out.write_string("All checks pass. Run `moon publish --dry-run`, then publish with an authenticated Mooncakes account.\n")
+    out.write_string(
+      "All checks pass. Run `moon publish --dry-run`, then publish with an authenticated Mooncakes account.\n",
+    )
   } else {
     out.write_string("## Required Actions\n\n")
     for step in steps {

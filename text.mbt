@@ -90,13 +90,21 @@ fn semver_like(version : String) -> Bool {
 ///|
 fn owner_part(module_name : String) -> String {
   let parts = module_name.split("/").to_array()
-  if parts.length() == 2 { parts[0].to_owned() } else { "" }
+  if parts.length() == 2 {
+    parts[0].to_owned()
+  } else {
+    ""
+  }
 }
 
 ///|
 fn package_part(module_name : String) -> String {
   let parts = module_name.split("/").to_array()
-  if parts.length() == 2 { parts[1].to_owned() } else { module_name }
+  if parts.length() == 2 {
+    parts[1].to_owned()
+  } else {
+    module_name
+  }
 }
 
 ///|

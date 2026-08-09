@@ -1,11 +1,10 @@
 ///|
 test "manifest_value strips quotes and whitespace" {
-  let text = (
+  let text =
     #|name = "owner/pkg"
     #|version = "0.1.0"
     #|license = "MIT"
     #|
-  )
   @test.assert_eq(manifest_value(text, "name"), "owner/pkg")
   @test.assert_eq(manifest_value(text, "version"), "0.1.0")
   @test.assert_eq(manifest_value(text, "missing"), "")
