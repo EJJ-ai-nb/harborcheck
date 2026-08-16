@@ -3,9 +3,9 @@
 ## 基本信息
 
 - 项目名称：HarborCheck：MoonBit 包发布就绪审计库
-- 参赛者：请填写参赛者姓名
-- 联系方式：请填写联系方式
-- GitHub 仓库链接：https://github.com/WVYT-ai-nb/harborcheck
+- 参赛者：张雨晴
+- 联系方式：18055754016 / 2327797191@qq.com
+- GitHub 仓库链接：https://github.com/EJJ-ai-nb/harborcheck
 - 项目方向：MoonBit 原生开发工具 / 规则校验库 / Mooncakes 发布辅助
 - 是否为移植项目：否，原创 MoonBit 开源项目
 - 开源许可证：MIT

@@ -16,10 +16,10 @@ MoonBit 包在参加开源大赛或发布到 mooncakes.io 前，常见风险不�
 ## 安装方式
 
 ```bash
-moon add WVYT-ai-nb/harborcheck
+moon add EJJ-ai-nb/harborcheck
 ```
 
-Mooncakes 包名：`WVYT-ai-nb/harborcheck`
+Mooncakes 包名：`EJJ-ai-nb/harborcheck`
 
 ## 最小使用示例
 
@@ -112,8 +112,8 @@ moon publish
 发布后检查：
 
 ```text
-https://mooncakes.io/docs/WVYT-ai-nb/harborcheck
-https://mooncakes.io/api/v0/manifest/WVYT-ai-nb/harborcheck
+https://mooncakes.io/docs/EJJ-ai-nb/harborcheck
+https://mooncakes.io/api/v0/manifest/EJJ-ai-nb/harborcheck
 ```
 
 ## 维护资料

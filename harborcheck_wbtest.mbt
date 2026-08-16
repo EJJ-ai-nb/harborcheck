@@ -21,7 +21,7 @@ test "semver_like accepts exact three numeric components" {
 
 ///|
 test "valid_slug accepts Mooncakes-safe owner and package names" {
-  @test.assert_eq(valid_slug("WVYT-ai-nb"), true)
+  @test.assert_eq(valid_slug("EJJ-ai-nb"), true)
   @test.assert_eq(valid_slug("harborcheck"), true)
   @test.assert_eq(valid_slug("pkg_1"), true)
   @test.assert_eq(valid_slug("bad/name"), false)

@@ -9,13 +9,13 @@
 //   "moonbitlang/x@0.4.6",
 // }
 
-name = "WVYT-ai-nb/harborcheck"
+name = "EJJ-ai-nb/harborcheck"
 
 version = "0.1.0"
 
 readme = "README.md"
 
-repository = "https://github.com/WVYT-ai-nb/harborcheck.git"
+repository = "https://github.com/EJJ-ai-nb/harborcheck.git"
 
 license = "MIT"
 

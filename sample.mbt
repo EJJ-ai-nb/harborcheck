@@ -3,10 +3,10 @@ pub fn harborcheck_example_snapshot() -> ProjectSnapshot {
   ProjectSnapshot(
     name="HarborCheck",
     moon_mod=(
-      #|name = "WVYT-ai-nb/harborcheck"
+      #|name = "EJJ-ai-nb/harborcheck"
       #|version = "0.1.0"
       #|readme = "README.md"
-      #|repository = "https://github.com/WVYT-ai-nb/harborcheck.git"
+      #|repository = "https://github.com/EJJ-ai-nb/harborcheck.git"
       #|license = "MIT"
       #|description = "MoonBit-native release readiness auditor for Mooncakes packages"
       #|
@@ -18,7 +18,7 @@ pub fn harborcheck_example_snapshot() -> ProjectSnapshot {
       #|
       #|## Installation
       #|
-      #|moon add WVYT-ai-nb/harborcheck
+      #|moon add EJJ-ai-nb/harborcheck
       #|
       #|## Usage
       #|
@@ -85,10 +85,10 @@ pub fn harborcheck_example_snapshot() -> ProjectSnapshot {
     changelog="# Changelog\n\n## 0.1.0\n\nInitial public release.",
     design_notes="# Design\n\nPure MoonBit audit rules over a project snapshot.",
     issue_notes="# Issues\n\n- Track Mooncakes release readiness.\n- Keep CI smoke tests reproducible.",
-    commit_count=8,
+    commit_count=10,
     repository_public=true,
     mooncakes_published=true,
-    mooncakes_owner="WVYT-ai-nb",
+    mooncakes_owner="EJJ-ai-nb",
     mooncakes_package="harborcheck",
   )
 }

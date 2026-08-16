@@ -1,14 +1,14 @@
 # Research Notes
 
-Date: 2026-08-10
+Date: 2026-08-16
 
 ## Mooncakes Search
 
 Checked `https://mooncakes.io/api/v0/modules`.
 
-- Total modules returned: 1845.
+- Total modules returned: 1949.
 - Exact `harborcheck` match: 0.
-- Exact package name `WVYT-ai-nb/harborcheck`: 0.
+- Exact package name `EJJ-ai-nb/harborcheck`: 0.
 
 Closest keyword groups found in Mooncakes:
 

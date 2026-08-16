@@ -53,7 +53,7 @@ test "partial snapshot is almost ready but not publishable" {
     commit_count=5,
     repository_public=true,
     mooncakes_published=false,
-    mooncakes_owner="WVYT-ai-nb",
+    mooncakes_owner="EJJ-ai-nb",
     mooncakes_package="harborcheck",
   )
   let report = @harborcheck.audit(snapshot)
@@ -65,15 +65,15 @@ test "partial snapshot is almost ready but not publishable" {
 ///|
 test "manifest parser exposes Mooncakes identity" {
   let manifest_text =
-    #|name = "WVYT-ai-nb/harborcheck"
+    #|name = "EJJ-ai-nb/harborcheck"
     #|version = "0.1.0"
     #|readme = "README.md"
-    #|repository = "https://github.com/WVYT-ai-nb/harborcheck.git"
+    #|repository = "https://github.com/EJJ-ai-nb/harborcheck.git"
     #|license = "MIT"
     #|description = "MoonBit-native release readiness auditor"
     #|
   let manifest = @harborcheck.parse_manifest(manifest_text)
-  @test.assert_eq(manifest.owner, "WVYT-ai-nb")
+  @test.assert_eq(manifest.owner, "EJJ-ai-nb")
   @test.assert_eq(manifest.package_name, "harborcheck")
   @test.assert_eq(manifest.has_semver, true)
   @test.assert_eq(manifest.has_valid_name, true)
@@ -152,16 +152,16 @@ test "rule catalog exposes every audit rule" {
 test "snapshot bundle parser builds an auditable snapshot" {
   let bundle =
     #|--- file: moon.mod
-    #|name = "WVYT-ai-nb/harborcheck"
+    #|name = "EJJ-ai-nb/harborcheck"
     #|version = "0.1.0"
     #|readme = "README.md"
-    #|repository = "https://github.com/WVYT-ai-nb/harborcheck.git"
+    #|repository = "https://github.com/EJJ-ai-nb/harborcheck.git"
     #|license = "MIT"
     #|description = "MoonBit-native release readiness auditor for Mooncakes packages"
     #|--- file: README.md
     #|# HarborCheck
     #|解决 MoonBit package release review problem.
-    #|安装 moon add WVYT-ai-nb/harborcheck.
+    #|安装 moon add EJJ-ai-nb/harborcheck.
     #|使用 moon run examples/basic.
     #|API audit.
     #|支持范围 package audit.
