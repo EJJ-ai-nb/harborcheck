@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2 - 2026-08-17
+
+- Fixed the README minimum example fence so Mooncakes documentation rendering can parse the nested Markdown sample safely.
+- Republished the adjusted documentation-proof package metadata.
+
 ## 0.1.1 - 2026-08-17
 
 - Repositioned the project as a README example verifier and open-source provenance proof toolkit.

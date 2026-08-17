@@ -25,7 +25,7 @@ Mooncakes 包名：`EJJ-ai-nb/harborcheck`
 
 ## 最小使用示例
 
-```moonbit
+````moonbit
 test {
   let markdown =
     #|# Usage
@@ -49,7 +49,7 @@ test {
   )
   inspect(report.verdict, content="ready")
 }
-```
+````
 
 完整示例位于 `examples/basic`：
 
