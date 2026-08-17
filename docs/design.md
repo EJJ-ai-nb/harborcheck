@@ -2,24 +2,34 @@
 
 ## Goal
 
-HarborCheck turns MoonBit package release readiness into deterministic data checks. The library is intentionally pure: it does not read files, call GitHub, call Mooncakes or shell out to `moon`. This keeps the core reusable in CLI tools, CI jobs, web pages and tests.
+HarborCheck turns README examples and open-source provenance evidence into deterministic MoonBit data checks. The library is intentionally pure: it does not read files, call GitHub, call Mooncakes or shell out to `moon`. This keeps the core reusable in CLI tools, CI jobs, web pages and tests.
 
-## Boundary
+## Core Boundary
 
-The boundary is `ProjectSnapshot`. External adapters are responsible for collecting repository files and command results. HarborCheck is responsible for interpreting that evidence, scoring it, and producing reports.
+The primary boundary is `doc_proof(markdown, sources)`.
 
-## Rule Groups
+External adapters provide Markdown text and source records. HarborCheck is responsible for:
 
-- Package config: validates Mooncakes-compatible name, SemVer version, README path, repository URL, SPDX license and description.
-- README: checks project identity, problem statement, install command, usage example, API, support scope, unsupported scope, verification commands and license notes.
-- CI: checks MoonBit installation plus `moon check`, `moon build`, `moon test` and runnable examples.
-- Tests/examples: checks evidence for normal, invalid, boundary and export paths.
-- Release trace: checks public repository, commit count, Mooncakes publication signal, changelog, design notes and issue records.
+- extracting fenced code blocks;
+- identifying MoonBit snippets with runnable signals;
+- checking whether each source record has origin and license evidence;
+- producing a compact proof report for maintainers and reviewers.
+
+## Auxiliary Boundary
+
+`ProjectSnapshot` remains as an auxiliary submission-material checker. It verifies README, CI, package metadata, tests, examples, license and Mooncakes release signals, but it is no longer the only identity of the project.
+
+## Proof Groups
+
+- Documentation snippets: index, language, body, label and runnable signal.
+- Source evidence: owned code, third-party code, dataset, asset and generated text records.
+- License clarity: common OSI licenses plus open-data/open-asset license signals.
+- Submission checklist: CI, tests, examples, public repository and Mooncakes metadata.
 
 ## Why not a generic parser
 
-The project does not try to be a TOML, YAML or Markdown parser. Those are broad formats. HarborCheck focuses on the subset needed for MoonBit package review, which keeps the code small enough to maintain and strict enough for repeatable validation.
+The project does not try to be a complete Markdown parser or command executor. Those are broad and unsafe surfaces. HarborCheck focuses on the subset needed to prove that MoonBit documentation examples and source records are reviewable.
 
 ## Differentiation
 
-Existing release-oriented packages may automate versioning, publishing or repository inspection. HarborCheck keeps a narrower pure-library boundary: it audits a provided review snapshot and returns deterministic findings, score, Markdown/JSON reports and repair steps. That makes it easy to embed in other tools without taking over file-system access, network access or package publishing.
+Release-oriented tools usually automate versioning, publishing, repository inspection or package readiness scoring. HarborCheck is narrower: it verifies README code blocks and provenance records, then keeps release checklist checks as supporting evidence. This makes the project useful even before publishing, inside documentation review, classroom examples, CI proof generation and open-source compliance checks.

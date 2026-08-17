@@ -1,38 +1,36 @@
 # Research Notes
 
-Date: 2026-08-16
+Date: 2026-08-17
 
 ## Mooncakes Search
 
 Checked `https://mooncakes.io/api/v0/modules`.
 
-- Total modules returned: 1949.
-- Exact `harborcheck` match: 0.
-- Exact package name `EJJ-ai-nb/harborcheck`: 0.
+- Exact `harborcheck` match before first publication: 0.
+- Exact package name `EJJ-ai-nb/harborcheck` before first publication: 0.
 
 Closest keyword groups found in Mooncakes:
 
-- `audit`: includes packages such as `minie135/moon-audit`, `Noverberrain/moonmodguard`, `chenzehaoo/moon_guard`, `BeiLaDuo/cidr-audit`.
-- `release`: includes packages such as `dijdzv/moon-release`, `LL728/moonseal`, `sheldonshi115/moon_doctor`.
-- `mooncakes`: includes packages such as `Estrella-11/moondockit` and protocol or example packages.
+- `audit`: packages tend to focus on audit rules, module checks or domain-specific validation.
+- `release`: packages tend to focus on versioning, publish flow or release automation.
+- `mooncakes`: packages include protocol helpers, examples or package workflow utilities.
 
 ## Differentiation
 
-HarborCheck is not a general release automation CLI, package publisher, source scanner, TOML parser, YAML parser or documentation linter.
+HarborCheck is not a general release automation CLI, package publisher, repository crawler, TOML parser, YAML parser or full Markdown parser.
 
-HarborCheck focuses on one boundary: a MoonBit package review snapshot. It validates the evidence reviewers ask for:
+HarborCheck now focuses on one primary boundary: documentation and provenance proof for MoonBit packages. It validates evidence that is easy to miss during review:
 
-- `moon.mod` identity and metadata;
-- README completeness;
-- CI command coverage;
-- runnable examples and tests;
-- OSI license signal;
-- Git trace and maintenance records;
-- Mooncakes owner/package consistency;
-- actionable repair checklist.
+- fenced README / docs code blocks;
+- MoonBit runnable example signals;
+- owned code records;
+- third-party source URL records;
+- license clarity for code, data and assets;
+- Markdown proof reports for maintainers;
+- auxiliary checklist checks for CI, tests, examples and Mooncakes metadata.
 
-This keeps HarborCheck complementary to packages that automate releases, inspect modules, or provide lower-level parsers.
+This keeps HarborCheck complementary to packages that automate releases or inspect modules. The reusable value is in proving that documentation examples and source records are reviewable, not in taking over the publish process.
 
 ## Naming Decision
 
-The name `HarborCheck` was chosen to avoid collision with existing `moon-*`, `moonguard`, `moon_doctor`, and `moon-release` style names while still describing the package's role: checking whether a MoonBit package is ready to enter the Mooncakes harbor.
+The name `HarborCheck` is retained because the package is already published under `EJJ-ai-nb/harborcheck`, but the meaning is narrowed: checking whether the materials entering a MoonBit project harbor have reproducible examples and clear provenance.

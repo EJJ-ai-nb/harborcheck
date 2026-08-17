@@ -17,6 +17,7 @@ pub(all) enum CheckKind {
   GitTrace
   License
   Boundary
+  DocProof
 } derive(Eq, Debug)
 
 ///|

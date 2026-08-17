@@ -2,34 +2,61 @@
 
 ## 基本信息
 
-- 项目名称：HarborCheck：MoonBit 包发布就绪审计库
+- 项目名称：HarborCheck：MoonBit README 示例验证与开源来源证明工具包
 - 参赛者：张雨晴
 - 联系方式：18055754016 / 2327797191@qq.com
 - GitHub 仓库链接：https://github.com/EJJ-ai-nb/harborcheck
-- 项目方向：MoonBit 原生开发工具 / 规则校验库 / Mooncakes 发布辅助
+- Mooncakes 包名：EJJ-ai-nb/harborcheck
+- 项目方向：MoonBit 原生文档验证工具 / 示例可复现检查 / 开源合规来源证明
 - 是否为移植项目：否，原创 MoonBit 开源项目
 - 开源许可证：MIT
 
 ## 项目简介
 
-HarborCheck 面向 MoonBit 包作者，将 README、CI、测试、示例、许可证、Git 记录和 Mooncakes 发布要求抽象为一个可复用审计模型。项目核心由 MoonBit 实现，可输出 Markdown 和 JSON 报告，帮助参赛项目在验收前发现材料缺口。
+HarborCheck 面向 MoonBit 包作者和黑客松项目维护者，重点解决 README 示例不可复现、文档与代码状态不一致、第三方来源和许可证说明不完整的问题。项目核心由 MoonBit 实现，可以提取 Markdown 代码块、识别 MoonBit 示例的可运行形态、记录来源证明，并输出 Markdown 报告。
+
+## 项目边界调整说明
+
+当前版本已将项目边界从通用发布材料检查，调整为“README 示例验证与开源来源证明”。`audit` 快照检查仍保留为附属能力，但项目核心卖点是文档示例和来源证明，不是自动发布工具，也不是通用发布审计替代品。
 
 ## 项目方向与适用场景
 
-项目适合 MoonBit 库作者、黑客松参赛者、教学项目和工具开发者。外部脚本可以收集仓库文件内容并构造 `ProjectSnapshot`，HarborCheck 负责执行规则校验和报告导出。
+项目适合 MoonBit 库作者、黑客松参赛者、教学项目和工具开发者。维护者可以把 README、docs、来源记录和项目快照转换为 HarborCheck 输入，用同一套 MoonBit API 生成可复查的证明报告。
 
-## 拟实现的核心功能
+## 已实现核心功能
 
-- 解析 `moon.mod` 中的包名、版本、仓库、许可证和描述；
-- 校验 README、CI、测试、示例、许可证和维护记录完整性；
-- 生成带评分、结论、问题和修复建议的审计报告；
-- 提供 Markdown 与 JSON 两种导出格式；
-- 提供测试、示例、README、CI 和 Mooncakes 发布配置。
+- 提取 README / docs 中的 fenced code block；
+- 识别 MoonBit 示例是否具备 `fn main`、`test`、`inspect` 等可运行信号；
+- 建模自有代码、第三方代码、数据集、素材和生成文本的来源证明；
+- 检查来源链接、许可证和说明是否清晰；
+- 生成文档示例与来源证明 Markdown 报告；
+- 保留 MoonBit 包配置、README、CI、测试、示例、许可证和 Mooncakes 元数据清单检查；
+- 提供黑盒测试、白盒测试、示例 smoke、CLI smoke、README、API 文档、设计说明、Issue 记录、CHANGELOG 和 GitHub Actions CI。
 
-## 项目现有基础与本次计划
+## 技术实现
 
-项目已包含 MoonBit 工程、核心审计模型、规则引擎、报告导出、黑盒/白盒测试、`examples/basic` 示例、`cmd/main` smoke 入口、README、API 文档、设计说明、Issue 记录、CHANGELOG、GitHub Actions CI 和 Mooncakes 发布元数据。
+项目以 MoonBit 为主要实现语言，运行时仅依赖 MoonBit 标准核心库。核心数据结构包括 `DocSnippet`、`SourceEvidence`、`DocProofReport` 和 `ProjectSnapshot`。核心 API 包括 `extract_doc_snippets`、`doc_proof`、`doc_proof_markdown`、`audit`、`audit_markdown` 和 `audit_json`。
+
+## 可运行示例与测试
+
+本地可执行：
+
+```bash
+moon check --deny-warn
+moon build
+moon test --deny-warn
+moon fmt --check
+moon run examples/basic
+moon run cmd/main
+moon publish --dry-run
+```
+
+当前测试覆盖正常示例、错误来源、边界输入、Markdown 导出、JSON 导出、快照解析和 smoke 入口。
 
 ## 原创或参考说明
 
-本项目为原创 MoonBit 实现，不移植第三方源码，不包含来源不明素材或私有代码。已通过 Mooncakes 模块列表和关键词调研确认无同名包；相近的 release、doctor、audit 类包更偏自动发布、模块检查或其他领域审计，HarborCheck 的差异点是面向验收材料的纯 MoonBit 快照审计和修复清单。项目使用 MIT License，运行时仅依赖 MoonBit 标准核心库。
+本项目为原创 MoonBit 实现，不移植第三方源码，不包含来源不明素材或私有代码。项目使用 MIT License，运行时仅依赖 MoonBit 标准核心库。仓库中如出现示例文本，均作为项目测试夹具使用，并在代码与文档中说明来源边界。
+
+## 后续维护价值
+
+后续可以扩展 README 示例执行结果记录、更多许可证规则、CI 中的文档证明报告导出，以及与外部页面或脚本集成的 JSON 输出。项目功能边界清晰，能够持续服务 MoonBit 包文档质量、示例可复现性和开源合规证明。

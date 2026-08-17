@@ -20,6 +20,7 @@ fn kind_text(kind : CheckKind) -> String {
     GitTrace => "git"
     License => "license"
     Boundary => "boundary"
+    DocProof => "doc-proof"
   }
 }
 

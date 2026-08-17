@@ -1,17 +1,19 @@
 # HarborCheck
 
-HarborCheck 是一个 MoonBit 原生的 Mooncakes 发布就绪审计库。它把 `moon.mod`、README、GitHub Actions、测试说明、示例入口、许可证和发布记录整理成一个项目快照，然后输出可读的 Markdown 报告或机器可读的 JSON 摘要。
+HarborCheck 是一个 MoonBit 原生的 README 示例验证与开源来源证明工具包。它把文档里的 MoonBit 代码块、可运行示例、第三方来源记录、许可证说明和项目快照整理成可测试的数据模型，帮助维护者证明“文档能复现、来源可追踪、许可证说得清楚”。
 
 ## 解决什么问题
 
-MoonBit 包在参加开源大赛或发布到 mooncakes.io 前，常见风险不是代码无法写出来，而是 README 缺项、CI 不完整、示例不可运行、包名不一致、许可证说明不清楚。HarborCheck 将这些验收要求固化成可测试的 MoonBit 规则，帮助包作者在提交前用同一套标准检查项目。
+很多 MoonBit 项目的风险不是只有构建失败，还包括 README 示例无法复现、文档中的命令和源码状态不一致、测试数据或素材来源没有说明、许可证边界不清楚。HarborCheck 的重点是把这些证据变成 MoonBit 可检查的报告，而不是替代发布平台或自动发布工具。
 
-## 适用场景
+## 项目边界
 
-- MoonBit 库作者检查 Mooncakes 发布材料；
-- 黑客松项目维护者整理 README、CI、测试和示例；
-- 教学项目展示如何用 MoonBit 实现规则校验、报告导出和 smoke test；
-- 外部脚本或 Web UI 收集仓库文件后，调用 HarborCheck 生成审计报告。
+HarborCheck 现在主打两个能力：
+
+- 文档示例证明：提取 README / docs 中的 fenced code block，识别 MoonBit 示例是否具备可运行形态；
+- 来源证明：记录自有代码、第三方代码、数据集、素材和生成文本的来源、许可证和说明，输出合规风险。
+
+项目仍保留 `audit` 快照检查，作为附属的提交材料清单能力，用来确认 README、CI、测试、示例、许可证和 Mooncakes 元数据是否完整。
 
 ## 安装方式
 
@@ -25,13 +27,31 @@ Mooncakes 包名：`EJJ-ai-nb/harborcheck`
 
 ```moonbit
 test {
-  let snapshot = @harborcheck.example_snapshot()
-  let report = @harborcheck.audit(snapshot)
+  let markdown =
+    #|# Usage
+    #|
+    #|```moonbit
+    #|fn main {
+    #|  println("verified")
+    #|}
+    #|```
+    #|
+  let report = @harborcheck.doc_proof(
+    markdown,
+    [
+      @harborcheck.SourceEvidence(
+        name="HarborCheck source",
+        kind=@harborcheck.OwnedCode,
+        license="MIT",
+        note="Original MoonBit implementation by the project applicant",
+      ),
+    ],
+  )
   inspect(report.verdict, content="ready")
 }
 ```
 
-一个完整的可运行示例位于 `examples/basic`：
+完整示例位于 `examples/basic`：
 
 ```bash
 moon run examples/basic
@@ -56,40 +76,44 @@ moon publish --dry-run
 
 ## API 与核心功能
 
-- `ProjectSnapshot(...)`：描述一个项目的审计输入，包含 `moon.mod`、README、CI、测试、示例、许可证和发布状态等字段；
-- `parse_manifest(text)`：从 `moon.mod` 文本中提取包名、版本、README、仓库、许可证和描述；
+- `extract_doc_snippets(markdown)`：提取 Markdown 代码块并标注语言、序号和可运行信号；
+- `SourceEvidence(...)`：记录自有代码、第三方代码、数据、素材或生成文本的来源证明；
+- `doc_proof(markdown, sources)`：生成文档示例与来源证明报告；
+- `doc_proof_markdown(markdown, sources)` / `DocProofReport::to_markdown()`：导出 Markdown 证明报告；
+- `ProjectSnapshot(...)`：描述一个项目的提交材料快照；
+- `parse_manifest(text)`：从 `moon.mod` 文本中提取包名、版本、仓库、许可证和描述；
 - `snapshot_from_bundle(text)`：解析 `--- file: path` 分隔的仓库快照文本；
-- `rule_catalog()` / `rules_markdown()`：查看内置规则目录；
-- `audit(snapshot)`：运行所有内置规则，生成 `AuditReport`；
-- `audit_markdown(snapshot)` / `AuditReport::to_markdown()`：导出 Markdown 审计报告；
-- `audit_json(snapshot)` / `AuditReport::to_json()`：导出 JSON 摘要，便于 CI 或页面集成；
-- `release_checklist(snapshot)` / `AuditReport::to_release_checklist()`：导出阻塞项和修复步骤；
-- `example_snapshot()`：提供可运行、可测试的完整示例输入。
+- `audit(snapshot)`：对 README、CI、测试、示例、许可证和 Mooncakes 元数据做附属清单检查；
+- `audit_markdown(snapshot)` / `audit_json(snapshot)`：导出提交材料检查报告；
+- `release_checklist(snapshot)`：导出阻塞项和修复步骤。
 
 ## 支持范围
 
+- README / docs 中 Markdown 代码块提取；
+- MoonBit 示例可运行形态识别；
+- 自有代码、第三方代码、数据集、素材、生成文本的来源证明建模；
+- 许可证信号检查，支持常见 OSI 许可证和开放素材许可证；
 - MoonBit 包配置字段检查：`name`、`version`、`readme`、`repository`、`license`、`description`；
-- README 完整性检查：用途、安装、使用示例、API、支持范围、暂不支持范围、测试命令、许可证说明；
-- GitHub Actions 内容检查：安装 MoonBit、`moon check`、`moon build`、`moon test`、示例运行；
-- 测试与示例覆盖形态检查：正常输入、错误输入、边界情况、导出结果、示例 smoke；
-- Git 和维护记录检查：公开仓库、提交数量、CHANGELOG、设计说明、Issue 记录；
-- Mooncakes 发布一致性检查：包名和 owner 与 `moon.mod` 同步。
+- CI、测试、示例、维护记录和 Mooncakes 发布元数据清单检查；
+- Markdown 和 JSON 风格的报告导出。
 
 ## 暂不支持范围
 
-- 不直接访问 GitHub、Mooncakes 或本地文件系统；
-- 不替代 `moon check`、`moon build`、`moon test` 的真实构建结果；
+- 不直接联网访问 GitHub、Mooncakes 或本地文件系统；
+- 不替代 `moon check`、`moon build`、`moon test` 的真实执行结果；
+- 不自动执行 README 里的任意命令；
 - 不执行 `moon login` 或 `moon publish`；
-- 不做通用 TOML/YAML/Markdown 语法解析，只检查发布审计所需字段和关键词。
+- 不做通用 Markdown 语法解析，只处理开源证明所需的 fenced code block 和证据字段。
 
 ## 测试与验收命令
 
-当前项目包含黑盒测试、白盒测试、示例 smoke 和 CLI smoke。验收前建议执行：
+当前项目包含黑盒测试、白盒测试、README 示例证明测试、来源证明风险测试、示例 smoke 和 CLI smoke。验收前建议执行：
 
 ```bash
-moon check
+moon check --deny-warn
 moon build
-moon test
+moon test --deny-warn
+moon fmt --check
 moon run examples/basic
 moon run cmd/main
 moon publish --dry-run

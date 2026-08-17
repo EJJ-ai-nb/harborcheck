@@ -70,7 +70,7 @@ test "manifest parser exposes Mooncakes identity" {
     #|readme = "README.md"
     #|repository = "https://github.com/EJJ-ai-nb/harborcheck.git"
     #|license = "MIT"
-    #|description = "MoonBit-native release readiness auditor"
+    #|description = "MoonBit-native README example verifier"
     #|
   let manifest = @harborcheck.parse_manifest(manifest_text)
   @test.assert_eq(manifest.owner, "EJJ-ai-nb")
@@ -138,9 +138,11 @@ test "repair checklist lists blocking actions for broken snapshot" {
 
 ///|
 test "rule catalog exposes every audit rule" {
-  @test.assert_eq(@harborcheck.catalog_size(), 34)
+  @test.assert_eq(@harborcheck.catalog_size(), 36)
   let readme_rules = @harborcheck.rules_for_kind(@harborcheck.Readme)
   assert_true(readme_rules.length() >= 8)
+  let doc_rules = @harborcheck.rules_for_kind(@harborcheck.DocProof)
+  @test.assert_eq(doc_rules.length(), 2)
   debug_inspect(
     @harborcheck.find_rule("ci.test").map(rule => rule.title),
     content="Some(\"Runs moon test\")",
@@ -157,7 +159,7 @@ test "snapshot bundle parser builds an auditable snapshot" {
     #|readme = "README.md"
     #|repository = "https://github.com/EJJ-ai-nb/harborcheck.git"
     #|license = "MIT"
-    #|description = "MoonBit-native release readiness auditor for Mooncakes packages"
+    #|description = "MoonBit-native README example verifier and provenance proof toolkit"
     #|--- file: README.md
     #|# HarborCheck
     #|解决 MoonBit package release review problem.
@@ -200,4 +202,54 @@ test "snapshot bundle parser builds an auditable snapshot" {
   @test.assert_eq(report.verdict, "ready")
   @test.assert_eq(report.metrics.example_count, 1)
   assert_true(report.metrics.command_count >= 4)
+}
+
+///|
+test "doc proof extracts runnable MoonBit README snippets" {
+  let markdown =
+    #|# Usage
+    #|
+    #|```moonbit
+    #|fn main {
+    #|  println("verified")
+    #|}
+    #|```
+    #|
+    #|```bash
+    #|moon run examples/basic
+    #|```
+    #|
+  let report = @harborcheck.doc_proof(markdown, [
+    @harborcheck.SourceEvidence(
+      name="HarborCheck source",
+      kind=@harborcheck.OwnedCode,
+      license="MIT",
+      note="Original MoonBit implementation by the project applicant",
+    ),
+  ])
+  @test.assert_eq(report.verdict, "ready")
+  @test.assert_eq(report.snippet_count, 2)
+  @test.assert_eq(report.runnable_snippet_count, 1)
+  assert_true(report.to_markdown().contains("HarborCheck Doc Proof"))
+}
+
+///|
+test "doc proof flags unknown external provenance" {
+  let markdown =
+    #|```moonbit
+    #|test { inspect(1, content="1") }
+    #|```
+    #|
+  let report = @harborcheck.doc_proof(markdown, [
+    @harborcheck.SourceEvidence(
+      name="fixture",
+      kind=@harborcheck.Dataset,
+      license="",
+      source_url="",
+      note="missing provenance",
+    ),
+  ])
+  @test.assert_eq(report.verdict, "needs-source-proof")
+  @test.assert_eq(report.unclear_source_count, 1)
+  @test.assert_eq(report.license_issue_count, 1)
 }

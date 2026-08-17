@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.1 - 2026-08-17
+
+- Repositioned the project as a README example verifier and open-source provenance proof toolkit.
+- Added `DocSnippet`, `SourceEvidence` and `DocProofReport`.
+- Added Markdown fenced code block extraction for README / docs examples.
+- Added runnable MoonBit example signal detection.
+- Added provenance checks for source origin and license clarity.
+- Added Markdown export for document proof reports.
+- Added tests for runnable README examples and unclear external provenance.
+- Updated README, submission document, API notes, design notes and research notes.
+
 ## 0.1.0 - 2026-08-10
 
 - Added MoonBit-native project snapshot model.

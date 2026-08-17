@@ -11,7 +11,7 @@
 
 name = "EJJ-ai-nb/harborcheck"
 
-version = "0.1.0"
+version = "0.1.1"
 
 readme = "README.md"
 
@@ -19,8 +19,8 @@ repository = "https://github.com/EJJ-ai-nb/harborcheck.git"
 
 license = "MIT"
 
-keywords = [ "audit", "ci", "mooncakes", "readme", "release" ]
+keywords = [ "docs", "examples", "provenance", "license", "mooncakes" ]
 
 preferred_target = "wasm"
 
-description = "MoonBit-native release readiness auditor for Mooncakes packages"
+description = "MoonBit-native README example verifier and open-source provenance proof toolkit"
