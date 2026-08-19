@@ -253,3 +253,166 @@ test "doc proof flags unknown external provenance" {
   @test.assert_eq(report.unclear_source_count, 1)
   @test.assert_eq(report.license_issue_count, 1)
 }
+
+///|
+test "identity proof confirms one applicant across submission and package" {
+  let identity = @harborcheck.SubmissionIdentity(
+    applicant_name="张雨晴",
+    phone="18055754016",
+    email="2327797191@qq.com",
+    github_owner="EJJ-ai-nb",
+    repository_name="harborcheck",
+    mooncakes_owner="EJJ-ai-nb",
+    package_name="harborcheck",
+  )
+  let submission =
+    #|张雨晴
+    #|18055754016
+    #|2327797191@qq.com
+    #|https://github.com/EJJ-ai-nb/harborcheck
+    #|EJJ-ai-nb/harborcheck
+    #|
+  let report = @harborcheck.acceptance_identity_report(
+    identity,
+    @harborcheck.example_snapshot(),
+    submission,
+    git_user_name="EJJ-ai-nb",
+    git_user_email="2327797191@qq.com",
+    git_remote="https://github.com/EJJ-ai-nb/harborcheck.git",
+  )
+  @test.assert_eq(report.verdict, "consistent")
+  @test.assert_eq(report.score, 100)
+  @test.assert_eq(report.has_mismatch(), false)
+  @test.assert_eq(report.mismatch_count(), 0)
+  assert_true(report.to_markdown().contains("HarborCheck Identity Proof"))
+  assert_true(report.to_json().contains("\"verdict\":\"consistent\""))
+}
+
+///|
+test "identity proof catches mixed owner evidence" {
+  let identity = @harborcheck.SubmissionIdentity(
+    applicant_name="张雨晴",
+    phone="18055754016",
+    email="2327797191@qq.com",
+    github_owner="EJJ-ai-nb",
+    repository_name="harborcheck",
+    mooncakes_owner="EJJ-ai-nb",
+    package_name="harborcheck",
+  )
+  let report = @harborcheck.acceptance_identity_report(
+    identity,
+    @harborcheck.example_snapshot(),
+    "张雨晴 18055754016 2327797191@qq.com",
+    git_user_name="OtherUser",
+    git_user_email="other@example.invalid",
+    git_remote="https://github.com/OtherUser/harborcheck.git",
+  )
+  @test.assert_eq(report.verdict, "identity-mismatch")
+  @test.assert_eq(report.has_mismatch(), true)
+  assert_true(report.score < 80)
+  assert_true(report.to_markdown().contains("git.user.name"))
+}
+
+///|
+test "final acceptance review combines audit identity doc proof and live signals" {
+  let identity = @harborcheck.SubmissionIdentity(
+    applicant_name="张雨晴",
+    phone="18055754016",
+    email="2327797191@qq.com",
+    github_owner="EJJ-ai-nb",
+    repository_name="harborcheck",
+    mooncakes_owner="EJJ-ai-nb",
+    package_name="harborcheck",
+  )
+  let submission =
+    #|张雨晴
+    #|18055754016
+    #|2327797191@qq.com
+    #|https://github.com/EJJ-ai-nb/harborcheck
+    #|EJJ-ai-nb/harborcheck
+    #|
+  let markdown =
+    #|# Usage
+    #|
+    #|```moonbit
+    #|fn main {
+    #|  println("verified")
+    #|}
+    #|```
+    #|
+  let review = @harborcheck.final_acceptance_review(
+    @harborcheck.example_snapshot(),
+    identity,
+    submission,
+    markdown,
+    [
+      @harborcheck.SourceEvidence(
+        name="HarborCheck source",
+        kind=@harborcheck.OwnedCode,
+        license="MIT",
+        note="Original MoonBit implementation",
+      ),
+    ],
+    profile=@harborcheck.AcceptanceProfile(
+      effective_moonbit_loc=3631,
+      target_moonbit_loc=4000,
+      ci_status="success",
+      mooncakes_build_status="success",
+      latest_commit_author="张雨晴",
+      latest_commit_email="2327797191@qq.com",
+      contest_commit_count=12,
+      published_version="0.1.3",
+    ),
+    git_user_name="EJJ-ai-nb",
+    git_user_email="2327797191@qq.com",
+    git_remote="https://github.com/EJJ-ai-nb/harborcheck.git",
+  )
+  @test.assert_eq(review.verdict, "review-ready-with-notes")
+  @test.assert_eq(review.has_hard_blockers(), false)
+  @test.assert_eq(review.line_gap(), 369)
+  assert_true(review.score >= 90)
+  assert_true(review.to_markdown().contains("scale.below-reference"))
+  assert_true(review.to_json().contains("\"identity\":\"consistent\""))
+}
+
+///|
+test "final acceptance review blocks failed ci or identity mismatch" {
+  let identity = @harborcheck.SubmissionIdentity(
+    applicant_name="张雨晴",
+    phone="18055754016",
+    email="2327797191@qq.com",
+    github_owner="EJJ-ai-nb",
+    repository_name="harborcheck",
+    mooncakes_owner="EJJ-ai-nb",
+    package_name="harborcheck",
+  )
+  let review = @harborcheck.final_acceptance_review(
+    @harborcheck.example_snapshot(),
+    identity,
+    "张雨晴 18055754016 2327797191@qq.com",
+    "```moonbit\ntest { inspect(1, content=\"1\") }\n```",
+    [
+      @harborcheck.SourceEvidence(
+        name="HarborCheck source",
+        kind=@harborcheck.OwnedCode,
+        license="MIT",
+        note="Original MoonBit implementation",
+      ),
+    ],
+    profile=@harborcheck.AcceptanceProfile(
+      effective_moonbit_loc=3631,
+      target_moonbit_loc=4000,
+      ci_status="failed",
+      mooncakes_build_status="success",
+      contest_commit_count=12,
+      published_version="0.1.3",
+    ),
+    git_user_name="WrongUser",
+    git_user_email="wrong@example.invalid",
+    git_remote="https://github.com/WrongUser/harborcheck.git",
+  )
+  @test.assert_eq(review.verdict, "blocked")
+  @test.assert_eq(review.has_hard_blockers(), true)
+  assert_true(review.hard_blocker_count() >= 2)
+  assert_true(review.next_actions().length() >= 2)
+}

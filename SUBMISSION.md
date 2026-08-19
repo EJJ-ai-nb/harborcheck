@@ -13,7 +13,7 @@
 
 ## 项目简介
 
-HarborCheck 面向 MoonBit 包作者和黑客松项目维护者，重点解决 README 示例不可复现、文档与代码状态不一致、第三方来源和许可证说明不完整的问题。项目核心由 MoonBit 实现，可以提取 Markdown 代码块、识别 MoonBit 示例的可运行形态、记录来源证明，并输出 Markdown 报告。
+HarborCheck 面向 MoonBit 包作者和黑客松项目维护者，重点解决 README 示例不可复现、文档与代码状态不一致、第三方来源和许可证说明不完整、提交材料身份容易混淆的问题。项目核心由 MoonBit 实现，可以提取 Markdown 代码块、识别 MoonBit 示例的可运行形态、记录来源证明，并输出文档证明、身份一致性证明和最终验收总览报告。
 
 ## 项目边界调整说明
 
@@ -30,12 +30,14 @@ HarborCheck 面向 MoonBit 包作者和黑客松项目维护者，重点解决 R
 - 建模自有代码、第三方代码、数据集、素材和生成文本的来源证明；
 - 检查来源链接、许可证和说明是否清晰；
 - 生成文档示例与来源证明 Markdown 报告；
+- 检查申报书、GitHub 仓库、`moon.mod`、Mooncakes 包名和 git 提交身份是否使用同一套信息；
+- 合并仓库审计、文档证明、身份一致性、远程 CI、Mooncakes 构建状态、提交记录和有效代码规模，生成最终验收总览；
 - 保留 MoonBit 包配置、README、CI、测试、示例、许可证和 Mooncakes 元数据清单检查；
 - 提供黑盒测试、白盒测试、示例 smoke、CLI smoke、README、API 文档、设计说明、Issue 记录、CHANGELOG 和 GitHub Actions CI。
 
 ## 技术实现
 
-项目以 MoonBit 为主要实现语言，运行时仅依赖 MoonBit 标准核心库。核心数据结构包括 `DocSnippet`、`SourceEvidence`、`DocProofReport` 和 `ProjectSnapshot`。核心 API 包括 `extract_doc_snippets`、`doc_proof`、`doc_proof_markdown`、`audit`、`audit_markdown` 和 `audit_json`。
+项目以 MoonBit 为主要实现语言，运行时仅依赖 MoonBit 标准核心库。核心数据结构包括 `DocSnippet`、`SourceEvidence`、`DocProofReport`、`ProjectSnapshot`、`SubmissionIdentity`、`IdentityReport`、`AcceptanceProfile` 和 `AcceptanceReview`。核心 API 包括 `extract_doc_snippets`、`doc_proof`、`doc_proof_markdown`、`audit`、`audit_markdown`、`audit_json`、`acceptance_identity_report` 和 `final_acceptance_review`。
 
 ## 可运行示例与测试
 
@@ -51,7 +53,7 @@ moon run cmd/main
 moon publish --dry-run
 ```
 
-当前测试覆盖正常示例、错误来源、边界输入、Markdown 导出、JSON 导出、快照解析和 smoke 入口。
+当前测试覆盖正常示例、错误来源、边界输入、Markdown 导出、JSON 导出、快照解析、身份一致性、最终验收总览和 smoke 入口。扩展后有效 MoonBit 代码约 3631 行，超过 3000 行目标，距离 4000 行参考规模约差 369 行。
 
 ## 原创或参考说明
 

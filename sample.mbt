@@ -4,7 +4,7 @@ pub fn harborcheck_example_snapshot() -> ProjectSnapshot {
     name="HarborCheck",
     moon_mod=(
       #|name = "EJJ-ai-nb/harborcheck"
-      #|version = "0.1.2"
+      #|version = "0.1.3"
       #|readme = "README.md"
       #|repository = "https://github.com/EJJ-ai-nb/harborcheck.git"
       #|license = "MIT"
@@ -83,7 +83,7 @@ pub fn harborcheck_example_snapshot() -> ProjectSnapshot {
       "moon check", "moon build", "moon test", "moon run examples/basic", "moon run cmd/main",
       "moon publish --dry-run",
     ],
-    changelog="# Changelog\n\n## 0.1.2\n\nFixed README nested code fence for Mooncakes docs.",
+    changelog="# Changelog\n\n## 0.1.3\n\nAdded identity proof and final acceptance review.",
     design_notes="# Design\n\nPure MoonBit doc-proof and audit rules over a project snapshot.",
     issue_notes="# Issues\n\n- Verify README snippets.\n- Track source provenance.\n- Keep CI smoke tests reproducible.",
     commit_count=10,

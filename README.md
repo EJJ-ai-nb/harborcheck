@@ -8,10 +8,12 @@ HarborCheck 是一个 MoonBit 原生的 README 示例验证与开源来源证明
 
 ## 项目边界
 
-HarborCheck 现在主打两个能力：
+HarborCheck 现在主打四个能力：
 
 - 文档示例证明：提取 README / docs 中的 fenced code block，识别 MoonBit 示例是否具备可运行形态；
-- 来源证明：记录自有代码、第三方代码、数据集、素材和生成文本的来源、许可证和说明，输出合规风险。
+- 来源证明：记录自有代码、第三方代码、数据集、素材和生成文本的来源、许可证和说明，输出合规风险；
+- 身份一致性证明：检查申报书、GitHub 仓库、`moon.mod`、Mooncakes 包名和 git 提交身份是否使用同一套信息；
+- 最终验收总览：合并仓库审计、身份证明、文档证明、CI 状态、Mooncakes 状态、提交记录和有效代码规模，输出 Markdown / JSON 结果。
 
 项目仍保留 `audit` 快照检查，作为附属的提交材料清单能力，用来确认 README、CI、测试、示例、许可证和 Mooncakes 元数据是否完整。
 
@@ -80,6 +82,11 @@ moon publish --dry-run
 - `SourceEvidence(...)`：记录自有代码、第三方代码、数据、素材或生成文本的来源证明；
 - `doc_proof(markdown, sources)`：生成文档示例与来源证明报告；
 - `doc_proof_markdown(markdown, sources)` / `DocProofReport::to_markdown()`：导出 Markdown 证明报告；
+- `SubmissionIdentity(...)`：定义申报书、GitHub、Mooncakes 和 git author 应保持一致的身份；
+- `acceptance_identity_report(identity, snapshot, submission_text)`：生成身份一致性证明报告；
+- `AcceptanceProfile(...)`：记录有效 MoonBit 行数、远程 CI、Mooncakes 构建状态、提交记录和发布版本；
+- `final_acceptance_review(...)`：合并 audit、identity proof 和 doc proof，生成最终验收总览；
+- `acceptance_markdown(...)`：导出最终验收 Markdown 报告；
 - `ProjectSnapshot(...)`：描述一个项目的提交材料快照；
 - `parse_manifest(text)`：从 `moon.mod` 文本中提取包名、版本、仓库、许可证和描述；
 - `snapshot_from_bundle(text)`：解析 `--- file: path` 分隔的仓库快照文本；
@@ -92,9 +99,11 @@ moon publish --dry-run
 - README / docs 中 Markdown 代码块提取；
 - MoonBit 示例可运行形态识别；
 - 自有代码、第三方代码、数据集、素材、生成文本的来源证明建模；
+- 申报身份、仓库 owner、模块 namespace、Mooncakes owner、包名和 git 提交身份一致性检查；
 - 许可证信号检查，支持常见 OSI 许可证和开放素材许可证；
 - MoonBit 包配置字段检查：`name`、`version`、`readme`、`repository`、`license`、`description`；
 - CI、测试、示例、维护记录和 Mooncakes 发布元数据清单检查；
+- 有效代码规模、远程 CI、Mooncakes 构建状态和提交记录的最终验收总览；
 - Markdown 和 JSON 风格的报告导出。
 
 ## 暂不支持范围
@@ -107,7 +116,7 @@ moon publish --dry-run
 
 ## 测试与验收命令
 
-当前项目包含黑盒测试、白盒测试、README 示例证明测试、来源证明风险测试、示例 smoke 和 CLI smoke。验收前建议执行：
+当前项目包含黑盒测试、白盒测试、README 示例证明测试、来源证明风险测试、身份一致性测试、最终验收总览测试、示例 smoke 和 CLI smoke。验收前建议执行：
 
 ```bash
 moon check --deny-warn

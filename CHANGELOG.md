@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.3 - 2026-08-20
+
+- Added applicant identity consistency proof for submission text, GitHub owner, `moon.mod`, Mooncakes owner and git author evidence.
+- Added final acceptance review model that combines repository audit, identity proof, documentation proof, CI status, Mooncakes status, commit trace and effective MoonBit LOC.
+- Added Markdown and JSON exporters for final acceptance reports.
+- Added example and CLI output for identity proof and acceptance review.
+- Expanded tests from 22 to 26 cases.
+
 ## 0.1.2 - 2026-08-17
 
 - Fixed the README minimum example fence so Mooncakes documentation rendering can parse the nested Markdown sample safely.

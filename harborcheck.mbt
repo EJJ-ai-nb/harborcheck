@@ -23,6 +23,52 @@ pub fn release_checklist(snapshot : ProjectSnapshot) -> String {
 }
 
 ///|
+/// Check whether applicant, repository, git and Mooncakes identities agree.
+pub fn acceptance_identity_markdown(
+  canonical : SubmissionIdentity,
+  snapshot : ProjectSnapshot,
+  submission_text : String,
+  git_user_name? : String = "",
+  git_user_email? : String = "",
+  git_remote? : String = "",
+) -> String {
+  acceptance_identity_report(
+    canonical,
+    snapshot,
+    submission_text,
+    git_user_name~,
+    git_user_email~,
+    git_remote~,
+  ).to_markdown()
+}
+
+///|
+/// Combine repository audit, identity proof and documentation proof into one final review.
+pub fn acceptance_markdown(
+  snapshot : ProjectSnapshot,
+  canonical : SubmissionIdentity,
+  submission_text : String,
+  markdown : String,
+  sources : Array[SourceEvidence],
+  profile? : AcceptanceProfile = AcceptanceProfile::AcceptanceProfile(),
+  git_user_name? : String = "",
+  git_user_email? : String = "",
+  git_remote? : String = "",
+) -> String {
+  final_acceptance_markdown(
+    snapshot,
+    canonical,
+    submission_text,
+    markdown,
+    sources,
+    profile~,
+    git_user_name~,
+    git_user_email~,
+    git_remote~,
+  )
+}
+
+///|
 /// Return the built-in rule catalog in Markdown form.
 pub fn rules_markdown() -> String {
   rule_catalog_markdown()

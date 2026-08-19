@@ -1,5 +1,37 @@
 # Test Record
 
+## 2026-08-20 Local Verification
+
+Environment:
+
+- MoonBit: `moon 0.1.20260803`
+- Target: default `wasm`
+
+Commands:
+
+```bash
+moon check --deny-warn
+moon build
+moon test --deny-warn
+moon fmt --check
+moon doc
+moon run examples/basic
+moon run cmd/main
+moon publish --dry-run
+```
+
+Result:
+
+- `moon check --deny-warn`: passed.
+- `moon build`: passed.
+- `moon test --deny-warn`: 26 tests passed, 0 failed.
+- `moon fmt --check`: passed.
+- `moon doc`: passed.
+- `examples/basic`: printed audit, identity proof, doc proof and final acceptance review.
+- `cmd/main`: printed `HarborCheck ready 100/100`, `doc-proof=ready` and `acceptance=review-ready-with-notes`.
+- `moon publish --dry-run`: server returned `202 Accepted`; dry run completed successfully for `EJJ-ai-nb/harborcheck` version `0.1.3`, with no changes made.
+- Effective MoonBit LOC after the acceptance-review extension: 3631 nonblank non-comment `.mbt` lines.
+
 ## 2026-08-17 Local Verification
 
 Environment:
