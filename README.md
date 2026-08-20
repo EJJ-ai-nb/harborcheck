@@ -13,6 +13,7 @@ HarborCheck 现在主打四个能力：
 - 文档示例证明：提取 README / docs 中的 fenced code block，识别 MoonBit 示例是否具备可运行形态；
 - 来源证明：记录自有代码、第三方代码、数据集、素材和生成文本的来源、许可证和说明，输出合规风险；
 - 身份一致性证明：检查申报书、GitHub 仓库、`moon.mod`、Mooncakes 包名和 git 提交身份是否使用同一套信息；
+- 维护证据证明：把 Issue、测试记录、更新日志、版本发布、CI、设计说明和许可证记录整理成可评分报告；
 - 最终验收总览：合并仓库审计、身份证明、文档证明、CI 状态、Mooncakes 状态、提交记录和有效代码规模，输出 Markdown / JSON 结果。
 
 项目仍保留 `audit` 快照检查，作为附属的提交材料清单能力，用来确认 README、CI、测试、示例、许可证和 Mooncakes 元数据是否完整。
@@ -84,6 +85,8 @@ moon publish --dry-run
 - `doc_proof_markdown(markdown, sources)` / `DocProofReport::to_markdown()`：导出 Markdown 证明报告；
 - `SubmissionIdentity(...)`：定义申报书、GitHub、Mooncakes 和 git author 应保持一致的身份；
 - `acceptance_identity_report(identity, snapshot, submission_text)`：生成身份一致性证明报告；
+- `MaintenanceRecord(...)` / `maintenance_review(records)`：检查开发过程证据是否覆盖 Issue、测试、发布、设计、CI 和许可证记录；
+- `maintenance_evidence_markdown(records)` / `MaintenanceReport::to_json()`：导出维护证据 Markdown / JSON 报告；
 - `AcceptanceProfile(...)`：记录有效 MoonBit 行数、远程 CI、Mooncakes 构建状态、提交记录和发布版本；
 - `final_acceptance_review(...)`：合并 audit、identity proof 和 doc proof，生成最终验收总览；
 - `acceptance_markdown(...)`：导出最终验收 Markdown 报告；
@@ -100,6 +103,7 @@ moon publish --dry-run
 - MoonBit 示例可运行形态识别；
 - 自有代码、第三方代码、数据集、素材、生成文本的来源证明建模；
 - 申报身份、仓库 owner、模块 namespace、Mooncakes owner、包名和 git 提交身份一致性检查；
+- Issue、测试记录、更新日志、版本发布、CI、设计说明和许可证记录的维护证据评分；
 - 许可证信号检查，支持常见 OSI 许可证和开放素材许可证；
 - MoonBit 包配置字段检查：`name`、`version`、`readme`、`repository`、`license`、`description`；
 - CI、测试、示例、维护记录和 Mooncakes 发布元数据清单检查；
@@ -116,7 +120,7 @@ moon publish --dry-run
 
 ## 测试与验收命令
 
-当前项目包含黑盒测试、白盒测试、README 示例证明测试、来源证明风险测试、身份一致性测试、最终验收总览测试、示例 smoke 和 CLI smoke。验收前建议执行：
+当前项目包含黑盒测试、白盒测试、README 示例证明测试、来源证明风险测试、身份一致性测试、维护证据测试、最终验收总览测试、示例 smoke 和 CLI smoke。验收前建议执行：
 
 ```bash
 moon check --deny-warn

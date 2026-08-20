@@ -1,6 +1,6 @@
 # Test Record
 
-## 2026-08-20 Local Verification
+## 2026-08-20 Local Verification for 0.1.4
 
 Environment:
 
@@ -19,6 +19,20 @@ moon run examples/basic
 moon run cmd/main
 moon publish --dry-run
 ```
+
+Result:
+
+- `moon check --deny-warn`: passed.
+- `moon build`: passed.
+- `moon test --deny-warn`: 29 tests passed, 0 failed.
+- `moon fmt --check`: passed.
+- `moon doc`: passed.
+- `examples/basic`: printed audit, identity proof, doc proof, maintenance evidence and final acceptance review.
+- `cmd/main`: printed `HarborCheck ready 100/100`, `doc-proof=ready`, `maintenance=trace-ready` and `acceptance=acceptance-ready`.
+- `moon publish --dry-run`: server returned `202 Accepted`; dry run completed successfully for `EJJ-ai-nb/harborcheck` version `0.1.4`, with no changes made.
+- Effective MoonBit LOC after the maintenance-evidence extension: 4411 nonblank non-comment `.mbt` lines.
+
+## 2026-08-20 Local Verification for 0.1.3
 
 Result:
 

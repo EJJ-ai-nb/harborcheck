@@ -46,24 +46,28 @@ fn main {
       ),
     ],
     profile=@harborcheck.AcceptanceProfile(
-      effective_moonbit_loc=3631,
+      effective_moonbit_loc=4411,
       target_moonbit_loc=4000,
       ci_status="success",
       mooncakes_build_status="success",
       latest_commit_author="张雨晴",
       latest_commit_email="2327797191@qq.com",
-      contest_commit_count=12,
-      published_version="0.1.3",
+      contest_commit_count=13,
+      published_version="0.1.4",
     ),
     git_user_name="EJJ-ai-nb",
     git_user_email="2327797191@qq.com",
     git_remote="https://github.com/EJJ-ai-nb/harborcheck.git",
+  )
+  let maintenance = @harborcheck.maintenance_review(
+    @harborcheck.example_maintenance_records(),
   )
   println(
     "HarborCheck " + report.verdict + " " + report.score.to_string() + "/100",
   )
   println("package=" + report.package_name)
   println("doc-proof=" + proof.verdict)
+  println("maintenance=" + maintenance.verdict)
   println("acceptance=" + acceptance.verdict)
   println("acceptance-score=" + acceptance.score.to_string() + "/100")
 }

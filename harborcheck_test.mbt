@@ -255,6 +255,61 @@ test "doc proof flags unknown external provenance" {
 }
 
 ///|
+test "maintenance evidence is ready when required records are present" {
+  let report = @harborcheck.maintenance_review(
+    @harborcheck.example_maintenance_records(),
+  )
+  @test.assert_eq(report.verdict, "trace-ready")
+  @test.assert_eq(report.has_blockers(), false)
+  @test.assert_eq(report.issue_count, 1)
+  @test.assert_eq(report.test_count, 1)
+  @test.assert_eq(report.release_count, 1)
+  @test.assert_eq(report.design_count, 1)
+  @test.assert_eq(report.license_count, 1)
+  @test.assert_eq(report.repair_steps().length(), 0)
+  assert_true(report.score >= 95)
+  assert_true(report.to_markdown().contains("Maintenance Evidence"))
+}
+
+///|
+test "maintenance evidence blocks missing release and tests" {
+  let records = [
+    @harborcheck.MaintenanceRecord(
+      id="issue-only",
+      kind=@harborcheck.IssueRecord,
+      title="Track a work item",
+      state=@harborcheck.Done,
+      evidence="docs/issues.md",
+    ),
+  ]
+  let report = @harborcheck.maintenance_review(records)
+  @test.assert_eq(report.verdict, "trace-blocked")
+  @test.assert_eq(report.has_blockers(), true)
+  assert_true(report.score < 60)
+  assert_true(report.repair_steps().length() >= 4)
+  assert_true(report.to_markdown().contains("trace.release"))
+}
+
+///|
+test "maintenance evidence supports policy and json export" {
+  let report = @harborcheck.maintenance_review(
+    @harborcheck.example_maintenance_records(),
+    policy=@harborcheck.MaintenancePolicy(
+      min_issue_records=1,
+      min_test_records=1,
+    ),
+  )
+  let release_records = report.records_for_kind(@harborcheck.ReleaseRecord)
+  @test.assert_eq(release_records.length(), 1)
+  let json = @harborcheck.maintenance_evidence_json(
+    @harborcheck.example_maintenance_records(),
+  )
+  assert_true(json.contains("\"verdict\":\"trace-ready\""))
+  assert_true(json.contains("\"releases\":1"))
+  assert_true(json.contains("\"records\""))
+}
+
+///|
 test "identity proof confirms one applicant across submission and package" {
   let identity = @harborcheck.SubmissionIdentity(
     applicant_name="张雨晴",
@@ -361,7 +416,7 @@ test "final acceptance review combines audit identity doc proof and live signals
       latest_commit_author="张雨晴",
       latest_commit_email="2327797191@qq.com",
       contest_commit_count=12,
-      published_version="0.1.3",
+      published_version="0.1.4",
     ),
     git_user_name="EJJ-ai-nb",
     git_user_email="2327797191@qq.com",
@@ -405,7 +460,7 @@ test "final acceptance review blocks failed ci or identity mismatch" {
       ci_status="failed",
       mooncakes_build_status="success",
       contest_commit_count=12,
-      published_version="0.1.3",
+      published_version="0.1.4",
     ),
     git_user_name="WrongUser",
     git_user_email="wrong@example.invalid",

@@ -46,6 +46,11 @@ fn main {
     ),
   ])
   println(proof.to_markdown())
+  println(
+    @harborcheck.maintenance_evidence_markdown(
+      @harborcheck.example_maintenance_records(),
+    ),
+  )
   let final_review = @harborcheck.final_acceptance_review(
     @harborcheck.example_snapshot(),
     identity,
@@ -60,14 +65,14 @@ fn main {
       ),
     ],
     profile=@harborcheck.AcceptanceProfile(
-      effective_moonbit_loc=3631,
+      effective_moonbit_loc=4411,
       target_moonbit_loc=4000,
       ci_status="success",
       mooncakes_build_status="success",
       latest_commit_author="张雨晴",
       latest_commit_email="2327797191@qq.com",
-      contest_commit_count=12,
-      published_version="0.1.3",
+      contest_commit_count=13,
+      published_version="0.1.4",
     ),
     git_user_name="EJJ-ai-nb",
     git_user_email="2327797191@qq.com",

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.4 - 2026-08-20
+
+- Added maintenance evidence review for issue records, test records, changelog entries, release records, design decisions, CI run evidence and license notes.
+- Added Markdown and JSON exporters for maintenance evidence reports.
+- Added example and CLI output for maintenance evidence status.
+- Expanded tests from 26 to 29 cases.
+
 ## 0.1.3 - 2026-08-20
 
 - Added applicant identity consistency proof for submission text, GitHub owner, `moon.mod`, Mooncakes owner and git author evidence.

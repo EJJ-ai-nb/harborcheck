@@ -69,6 +69,24 @@ pub fn acceptance_markdown(
 }
 
 ///|
+/// Render issue, test, changelog, release and design records as a maintenance report.
+pub fn maintenance_evidence_markdown(
+  records : Array[MaintenanceRecord],
+  policy? : MaintenancePolicy = MaintenancePolicy::MaintenancePolicy(),
+) -> String {
+  maintenance_review(records, policy~).to_markdown()
+}
+
+///|
+/// Render maintenance evidence as a compact machine-readable summary.
+pub fn maintenance_evidence_json(
+  records : Array[MaintenanceRecord],
+  policy? : MaintenancePolicy = MaintenancePolicy::MaintenancePolicy(),
+) -> String {
+  maintenance_review(records, policy~).to_json()
+}
+
+///|
 /// Return the built-in rule catalog in Markdown form.
 pub fn rules_markdown() -> String {
   rule_catalog_markdown()

@@ -25,6 +25,7 @@ External adapters provide Markdown text and source records. HarborCheck is respo
 - Source evidence: owned code, third-party code, dataset, asset and generated text records.
 - License clarity: common OSI licenses plus open-data/open-asset license signals.
 - Identity evidence: applicant, contact, GitHub, Mooncakes, `moon.mod` and git author records.
+- Maintenance evidence: issues, test records, changelog entries, release records, CI runs, design decisions and license notes.
 - Submission checklist: CI, tests, examples, public repository and Mooncakes metadata.
 - Final acceptance signals: composed audit verdict, identity verdict, doc proof verdict, code scale, remote CI status, Mooncakes build status, commit trace and published version.
 
@@ -45,6 +46,12 @@ This boundary is useful for contests and package release workflows where one acc
 It also accepts live evidence collected outside the library, including effective MoonBit LOC, latest GitHub Actions status, Mooncakes build status, latest commit author, contest-period commit count and published version. This keeps HarborCheck pure while still letting a CI job or local script build a single acceptance report.
 
 The final verdict is intentionally conservative. Hard failures in CI, Mooncakes, identity or doc proof produce `blocked`. Scale below the reference target is treated as a warning because project usefulness and completeness matter more than padding source lines.
+
+## Maintenance Evidence Boundary
+
+`maintenance_review` models the development-process records that reviewers often need but that are easy to scatter across Markdown files and release pages. It does not connect to GitHub Issues or Mooncakes directly. Instead, callers pass `MaintenanceRecord` values collected by any adapter, and HarborCheck checks whether the set covers issue/work-item records, test records, changelog entries, release records, CI evidence, design decisions and license notes.
+
+This boundary turns the hackathon's suggested retained materials into deterministic MoonBit data. A complete project should be able to show not only that the current code works, but also that its decisions, tests and release path are traceable for future maintainers.
 
 ## Why not a generic parser
 

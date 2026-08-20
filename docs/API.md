@@ -78,6 +78,33 @@ Identity verdicts:
 - `needs-review`: unknown evidence keys were supplied but no mismatch was found.
 - `identity-mismatch`: at least one observed value does not match the canonical identity.
 
+## Maintenance Evidence Model
+
+`maintenance_review` checks whether development-process records are retained in a reviewable shape. It is designed for the hackathon's suggested evidence trail: issues, test records, changelog entries, release records, design notes, CI runs and license notes.
+
+Important types:
+
+- `MaintenanceRecord`: one traceable development record with id, kind, title, state, evidence, link, owner and date.
+- `MaintenancePolicy`: configurable minimum evidence policy for issue and test records plus required release/design/license/CI records.
+- `MaintenanceFinding`: one pass, warning or failure for a maintenance-evidence rule.
+- `MaintenanceReport`: score, verdict, coverage counters, findings and original records.
+
+Important functions:
+
+- `example_maintenance_records()` returns a complete demo evidence set.
+- `maintenance_review(records)` checks the evidence set.
+- `maintenance_markdown(records)` and `maintenance_evidence_markdown(records)` render reviewer-friendly Markdown.
+- `maintenance_json(records)` and `maintenance_evidence_json(records)` render compact JSON.
+- `MaintenanceReport::records_for_kind(kind)` filters records by evidence type.
+- `MaintenanceReport::repair_steps()` lists missing or weak evidence actions.
+
+Maintenance verdicts:
+
+- `trace-ready`: required records are present, completed records have evidence and no open blocker remains.
+- `trace-ready-with-notes`: hard requirements pass but some advisory maintenance evidence could be clearer.
+- `trace-blocked`: required evidence such as test records, release records or design notes is missing.
+- `trace-needs-work`: evidence exists but the score is too weak for confident review.
+
 ## Final Acceptance Review
 
 `final_acceptance_review` combines repository audit, identity proof, documentation proof and live submission signals into one result. It is intended for pre-acceptance notes, not for replacing GitHub, Mooncakes or `moon` commands.
